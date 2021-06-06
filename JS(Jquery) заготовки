@@ -1,0 +1,823 @@
+/************
+скрыть/показать пароль
+без всяких крутых вещей. Главный принцип
+**************/
+<input type="password" id="password">
+<input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'"> Show password
+
+// и второй вариант. На Jquery пока не переделал
+$('.show-key').click(function() {
+     document.getElementById('api_key').type = "text";
+});
+
+/********************
+обработка чекбокса о согласии ПД
+********************/
+ var error = 0
+        if($("input[name='soglasie']").prop( "checked" ) != true) { 
+            error = 1;
+            alert('Подтвердите согласие на обработку персональных данных');
+        }
+if(error == 0){}
+
+/***********
+нажатие по классу и id
+************/
+$('.show-key').click(function() {
+//выполнить основной код
+});
+
+//нажатие по id
+$('#show-key').click(function() {
+//выполнить основной код
+});
+
+/***************
+ajax заготовки
+****************/
+/*********************** обычная запись ***************/
+       $.ajax({
+          type: "POST",
+          url: "/profile/ajax.php",
+          data: {
+                action: 'genkey',
+                email: $('#input-5').val(),
+                id: $('#api_key_id').val(),
+                },
+          dataType: "text",
+          success: function(resultData){
+              data = JSON.parse(resultData);
+              $('#api_key').val(data.key);
+              // console.log(resultData);
+
+          }
+    });
+    
+/**************** вариант с отправкой параметров в массиве *****************/
+var arr = { response:response };
+	$.ajax({
+		type: "POST",
+		url: "/req/addcomment/",
+		data: arr
+	}).done(function(datarez) {
+		$("#output").html("<span style='color: #3f3'>Сообщение отправлено!</span>");
+	});
+ 
+/*************************** вариант с обработкой ошибок ********************/
+$("#form").submit(function() {
+                    var form_data = $(this).serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "send.php",
+                        data: form_data,
+                        success: function() {
+                            alert('Ваше сообщение отправлено!');
+                        },
+                        error: function() {
+                            alert('возникла ошибка');
+                        }
+                    });
+/*********************** короткая запись гет запроса ******************/
+    $(document).ready(function(){
+        console.log(<?php echo json_encode($arParams);?>+'  arParams');
+        $.get('/ajax/load_element_print_page.php',{'data':<?php echo json_encode($arParams);?>}, function(data){
+            $('.223').html(data);
+        });
+    });
+
+//еще вариант короктйо записи
+var ajaxSettings = {
+	url: '/ajax/problems.php',
+	type: "GET",
+	dataType: 'json',
+	data: {
+		PAGEN_1: problemsFilters.page,
+		curaddr: currCityObj.name(),
+		sort: problemsFilters.sort(),
+		state: problemsFilters.state().join(','),
+		cat: problemsFilters.categories().join(','),
+		count: cityProblemsList.itemsCount
+	}
+};
+$.ajax(ajaxSettings)
+	.done(function (data) {
+	//тут что-то можно сделать, например проверку
+	}).fail(function (error) {
+		console.log(error)
+		console.log(data+' datacon error');
+	})
+/********************** коротная запись post запроса ********************/
+    $(document).ready(function(){
+        console.log(<?php echo json_encode($arParams);?>+'  arParams');
+        $.post('/ajax/load_element_print_page.php',{'data':<?php echo json_encode($arParams);?>}, function(data){
+            $('.223').html(data);
+        });
+    });
+    
+/*************************** serialize **********************************/
+//Иногда нужно собрать все данные с формы и отправить их сразу. Есть классная вещь в jQuery serialize 
+//Используем имеено эту конструкцию JSON.stringify($("form#2").serializeArray())
+// на выходе получает json строку 
+//[{"name":"fname2","value":"Тест 1"},{"name":"sname2","value":"Фамилия 1"},{"name":"fname3","value":"Тест 2"},{"name":"sname3","value":"фамилия 2"}]
+    $.ajax({
+	        type: "POST",
+	        url: "/url/",
+	        data: {
+				serialize:JSON.stringify($("form#2").serializeArray()),
+			}
+    }).done(function(data) {
+    });
+    
+// если нужно сделать проверку того что находится в srializearray
+//переберем массив
+var error = ''; 
+$.each($("form#2").serializeArray(), function(i, field){
+    $("input[name='"+field.name+"']").css('border-color','white');
+    if (field.value == '') {
+        console.log('ошибка');
+        $("input[name='"+field.name+"']").css('border-color','red');
+        error = '1';
+    };
+    console.log(field.name+' index');
+    console.log(field.value+' value');
+});
+
+if (error != '') {
+    $('#error_friend').html('Заполните, пожалуйста все поля');
+    $('#error_friend').css('color','red');
+    return;
+};
+/*****************
+скрыть блок после N секунд
+*****************
+setTimeout(function(){$('#output').fadeOut('fast')},3000);  //30000 = 30 секунд
+
+
+/***********************
+Выполнение скрипт при загрузки страниц
+***********************/
+//1. Выполнить скрипт, когда загружен DOM
+$(document).ready(function() { 
+// тело функции 
+}); 
+
+//или
+
+$(document).on("ready", function() { 
+// тело функции 
+}); 
+
+//или
+
+$(function() { 
+// тело функции 
+}); 
+
+//2. Выполнить скрипт, когда страница загрузилась полностью
+$(window).load(function() { 
+// тело функции 
+}); 
+
+//или
+
+$(window).on("load", function() { 
+// тело функции 
+}); 
+
+//Выше, загрузка идет через jquery
+//а это через js
+window.onload = function () {//тело функции}
+
+//и еще вариант на js
+document.addEventListener("DOMContentLoaded", function() {
+   //func
+})
+
+/*****************
+исполнение скрипта при изменение размера страницы
+******************/
+$(window).resize(function() {
+   //тело функции
+});
+
+/*********************
+получить значения выбранных input через name
+**********************
+/******************************************
+Хороший материал по работе с массивами на js 
+находится тут -> https://itchief.ru/lessons/javascript/jquery-each
+******************************************/
+
+//вресто input[name='id_tovar'] можно писать классы input[class='id_tovar'], но в зависимости от ситуации
+$('.add_id_checkbox').click(function() {
+var selectedItems = new Array();
+$("input[name='id_tovar']:checked").each(function() {
+    selectedItems.push($(this).val());
+});
+console.log(selectedItems);
+});
+
+//собрать все инпуты в блоке с id и запехнуть в массив
+  var tableElem = document.getElementById('id_birja');
+  var elements = tableElem.getElementsByTagName('input');
+var arr = new Array();
+  for (var i = 0; i < elements.length; i++) {
+    var input = elements[i];
+   // alert( input.value + ': ' + input.checked );
+   if (input.checked === true){
+  // alert(input.value);
+  arr.push(input.value);
+   }
+ }
+ console.log(JSON.stringify(arr));//вывести массив
+
+//собрать все инпуты через класс
+  var dop_id = $('.item-configurator').find( "input:checked" );//выбираем все отмеченные доп. оборудованя
+      for(var i=0; i<dop_id.length; i++){
+        var id_prod_dop = $(dop_id[i]).data('id');
+  }
+
+
+/**********************
+Ограничение символов в textarea
+**********************/
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="box">
+    <form method="" action="">
+        <div>Ваше имя:</div>
+        <div><input type="text" name="review-name"></div>
+        <div>Ваш отзыв об этом товаре:</div>
+        <div><textarea name="review-text" rows="7" id="review-text"></textarea></div>
+        <div class="counter">Осталось символов: <span id="counter"></span></div>
+    </form>
+</div>
+
+
+<script>
+$(document).ready(function(){
+    var maxCount = 400;
+
+    $("#counter").html(maxCount);
+
+    $("#review-text").keyup(function() {
+    var revText = this.value.length;
+
+        if (this.value.length > maxCount)
+            {
+           $(this).val($(this).val().substr(0, maxCount));
+            }
+        var cnt = (maxCount - revText);
+        if(cnt <= 0){$("#counter").html('0');}
+        else {$("#counter").html(cnt);}
+
+    });
+});
+</script>
+
+//если нужно сделать ограничения символов для нескольких текстра
+    <form method="" action="">
+        <div>Ваше имя:</div>
+        <div><input type="text" name="review-name"></div>
+        <div>Ваш отзыв об этом товаре:</div>
+        <div><textarea name="review-text" rows="7" cols="50" id="review-text"></textarea></div>
+        <div class="counter">Осталось символов: <span id="counter_review-text"></span></div>
+        
+        <div><textarea name="review-text" rows="7" cols="50" id="review-text2"></textarea></div>
+        <div class="counter">Осталось символов: <span id="counter_review-text2"></span></div>
+    </form>
+</div>
+
+
+<script>
+$(document).ready(function(){
+    var maxCount = 400;
+
+    $("#counter_review-text").html(maxCount);
+     $("#counter_review-text2").html(maxCount);
+    
+    $("#review-text").keyup(function() {
+	  lenghtsym('review-text');
+    });
+    
+     $("#review-text2").keyup(function() {
+	  lenghtsym('review-text2');
+    });
+    
+    
+    function lenghtsym(id){
+   // var revText = id.value.length;
+	var revText = $('#'+id).val();
+    revText = revText.length;
+        if ($('#'+id).val().length > maxCount)
+            {
+            $('#'+id).val( $('#'+id).val().substr(0, maxCount));
+            }
+        var cnt = (maxCount - revText);
+        if(cnt <= 0){$("#counter_"+id).html('0');}
+        else {$("#counter_"+id).html(cnt);}
+}
+});
+</script>
+/**********************************/
+/****************
+10000 -> 10 000
+****************/
+  function formatStr(str) {
+           str = str.toString().replace(/(\.(.*))/g, '');
+           var arr = str.split('');
+           var str_temp = '';
+           if (str.length > 3) {
+               for (var i = arr.length - 1, j = 1; i >= 0; i--, j++) {
+                   str_temp = arr[i] + str_temp;
+                   if (j % 3 == 0) {
+                       str_temp = ' ' + str_temp;
+                   }
+               }
+               return str_temp;
+           } else {
+               return str;
+           }
+       }
+
+/**************
+d f g h h -> dfghh
+**************/
+function del_spaces(str)
+{
+    str = str.replace(/\s/g, '');
+    return str;
+}
+
+
+/*************************************************
+pushup в браузере пользователя
+************************************************/
+//mess текст 
+function notifyMe(mess) {
+  // Давайте проверим, поддерживает ли браузер уведомления
+  if (!("Notification" in window)) {
+    alert("Ваш браузер не поддерживает HTML5 Notifications");
+  }
+  // Теперь давайте проверим есть ли у нас разрешение для отображения уведомления
+  else if (Notification.permission === "granted") {
+    // Если все в порядке, то создадим уведомление
+    var notification = new Notification(location.host, {
+      lang: 'ru-RU', 
+     // body: 'Здесь какой-то контент уведомления...', 
+      body: mess, 
+      icon: 'http://sender.emailplus.ru/production/images/mail.png'
+    });
+  }
+  // В противном случае, мы должны спросить у пользователя разрешение
+  else if (Notification.permission === 'default') {
+    Notification.requestPermission(function (permission) {
+
+      // Не зависимо от ответа, сохраняем его в настройках
+      if(!('permission' in Notification)) {
+        Notification.permission = permission;
+      }
+      // Если разрешение получено, то создадим уведомление
+      if (permission === "granted") {
+        var notification = new Notification(location.host, {
+        lang: 'ru-RU', 
+        body: 'Уведомления включены', 
+        icon: 'http://sender.emailplus.ru/production/images/mail.png'
+      });
+      }
+    });
+  }
+}
+
+
+/*******************
+функция валидации email
+********************/
+function validateEmail(email) 
+{
+var r = email.match(/^[0-9a-z-\._]+\@[0-9a-z-]{2,}\.[a-z]{2,4}$/i);
+//еще можно использовать earch
+// var r = email.search(/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/im);
+    console.log(r+'log');
+if (!r){
+    return r
+}else{
+    return r
+}
+}
+//запускаем
+if(validateEmail(EMAIL) == null) {}
+
+//можно записать короче
+function validateEmail(value) { 
+   return (/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}/).test(value); //true or false
+}
+
+// проверка номера телефона на формат 79851234567 или 89851234567
+function validphone(){
+  var re = /^(8|7)\d\d\d\d\d\d\d\d\d\d$/; // или так /^(8|7)\d{9}$/
+    var valid = $('#mphone').val().search(re);
+    if (valid){
+      return true;
+    }
+    return false;
+}
+
+
+/*********************************
+получить содержимое конкретного get параметра
+http://qaru.site/questions/4959/how-to-retrieve-get-parameters-from-javascript - тут еще можно посмотреть
+*************************************/
+  function $_GET(key) {
+	var s = window.location.search;
+	s = decodeURI(s).match(new RegExp(key + '=([^&=]+)'));
+	return s ? s[1] : false;
+}
+
+alert( $_GET('filename') );
+
+//or
+var parameterValue = decodeURIComponent(window.location.search.match(/(\?|&)parameterName\=([^&]*)/)[2]);
+
+//or
+var getParamUrl = function (key) {
+        var result = null,
+        tmp = [];
+        var items = location.search.substr(1).split("&");
+        for (var index = 0; index < items.length; index++) {
+            tmp = items[index].split("=");
+            if (tmp[0] === key) result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+    }
+    
+ let getUrlParameter = function getUrlParameter(sParam) {
+    let sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+/********************************
+изменить или добавить в url get параметры
+без перезагрузки
+************************************/
+<script>
+function setAttr(prmName,val){
+    var res = '';
+	var d = location.href.split("#")[0].split("?");
+	var base = d[0];
+	var query = d[1];
+	if(query) {
+		var params = query.split("&");
+		for(var i = 0; i < params.length; i++) {
+			var keyval = params[i].split("=");
+			if(keyval[0] != prmName) {
+				res += params[i] + '&';
+			}
+		}
+	}
+	res += prmName + '=' + val;
+	//window.history.pushState("object or string", "Title", base + '?' + res); 
+	window.location.href = base + '?' + res;
+	return false;
+}
+
+//упрощенный вариант
+function setAttr(prmName, val) {
+    const url = new URL(window.location);  // == window.location.href
+    url.searchParams.set(prmName, val);
+    history.pushState(null, null, url);
+}
+
+</script>
+<a href="#" onclick="return setAttr('sort','name')">Сортировка по Имени</a><br/>
+<a href="#" onclick="return setAttr('sort','name1')">Сортировка по Имени</a><br/>
+<a href="#" onclick="return setAttr('sort','name2')">Сортировка по Имени</a><br/>
+<a href="#" onclick="return setAttr('sort','name3')">Сортировка по Имени</a><br/>
+<a href="#" onclick="return setAttr('sort','name4')">Сортировка по Имени</a><br/>
+/*******************************
+очистить адресную строку без перезагрузки
+******************************/
+history.pushState(null, "", location.href.split("?")[0]);
+//or
+   const url = new URL(window.location.href)
+      const params = new URLSearchParams(url.search.slice(1))
+      params.delete('message')
+      window.history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}?${params}${window.location.hash}`,
+      
+
+/**********************************
+что вроде обнуления индексов массива
+**********************************/
+var theArray = ['a', 'b', 'c', 'd'];
+delete theArray[2];
+console.log("before", JSON.stringify(theArray));
+theArray = theArray.filter((_, index) => theArray.hasOwnProperty(index));
+console.log("after", JSON.stringify(theArray));
+
+
+/********************************
+Ускорение загрузки страницы за счёт параллельной загрузки картинок, вместо последовательной.
+*********************************/
+(async ()=>{
+    console.log(document.getElementsByTagName('img'));
+    for(let node of document.getElementsByTagName('img')){
+      if(node && node.dataset.src){
+        await new Promise(res=>{
+          node.src = node.dataset.src;
+          node.onload = ()=> res();
+        });
+      }
+
+
+    };
+  })()
+  
+  //<img data-src="pathToImg">
+  
+  /*******************************
+  вставить текст к блок или еще куда с помощью js, не jquery
+  *********************************
+  document.getElementsByClassName('candidate-info__district_desc')['0'].innerHTML = 'текст';
+  
+  // и еще хороший примерчик
+<script>
+    	var date = Date();
+        var element = document.querySelector('.content');
+        // или
+        //var element = document.getElementsByClassName('content')[0];
+        element.innerHTML = date;
+</script>
+
+/******************************************************************
+быстрый набор готовых функций по JS
+*******************************************************************/
+//Разделение строки в подстроки
+var myString = "coming,apart,at,the,commas";
+var substringArray = myString.split(","); // ["coming", "apart", "at", "the", "commas"]
+var arrayLimited = myString.split(",", 3); // ["coming", "apart", "at"]
+
+//Поиск подстроки в строке
+var stringOne = "Johnny Waldo Harrison Waldo";
+var wheresWaldo = stringOne.indexOf("Waldo"); // 7
+
+//Замена подстроки
+var slugger = "Josh Hamilton";
+var betterSlugger = slugger.replace("h Hamilton", "e Bautista");
+console.log(betterSlugger); // "Jose Bautista"
+
+//Получить символ по заданной позиции в строке
+var myString = "Birds of a Feather";
+var whatsAtSeven = myString.charAt(7); //
+
+//Извлечение подстроки
+var stringOne = "abcdefghijklmnopqrstuvwxyz";
+var stringTwo = stringOne.slice(5, 10); // "fghij"
+
+var stringOne = "abcdefghijklmnopqrstuvwxyz";
+var stringTwo = stringOne.substring(5, 10); // "fghij"
+
+var stringOne = "abcdefghijklmnopqrstuvwxyz";
+var stringTwo = stringOne.substr(5, 10); // "fghijklmno"
+
+//Перевод строки в верхний или нижний регистр.
+var stringOne = "Speak up, I can't hear you.";
+var stringTwo = stringOne.toLocaleUpperCase();
+
+var stringOne = "YOU DON'T HAVE TO YELL";
+var stringTwo = stringOne.toLocaleLowerCase();
+
+/*********************************
+склонение слов
+https://gist.github.com/realmyst/1262561
+*********************************/
+function declOfNum(number, titles) {  
+    cases = [2, 0, 1, 1, 1, 2];  
+    return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
+}
+
+use:
+declOfNum(count, ['найдена', 'найдено', 'найдены']);
+
+/***************************************
+является ли строка числом
+***************************************/
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+/*************************************
+событие change на js
+*************************************/
+<script>
+document.getElementById("fname").addEventListener("change", myFunction);
+
+function myFunction() {
+  var x = document.getElementById("fname");
+  x.value = x.value.toUpperCase();
+}
+</script>
+
+//or
+<script>
+document.getElementById("fname").addEventListener("change", function () {
+  var x = document.getElementById("fname");
+  x.value = x.value.toUpperCase();
+});
+</script>
+
+//example select chenge
+const selectElement = document.querySelector('.ice-cream');
+
+selectElement.addEventListener('change', (event) => {
+  const result = document.querySelector('.result');
+  result.textContent = `You like ${event.target.value}`;
+});
+
+/**********************************
+data atributes on js
+**********************************/
+//setting data-foo
+var el = document.querySelector('div');
+el.setAttribute('data-foo', 'Hello World!');
+
+// getting data-foo
+var el = document.querySelector('img');
+console.log(el.getAttribute('data-foo'));
+
+//remove 
+el.removeAttribute('data-foo');
+
+
+/***********************
+js click class
+***********************/
+var number = document.getElementsByClassName('clicktopage');
+	for (var i = 1; i < number.length; i++) {
+	    var l = number[i];
+	    l.addEventListener('click', function () {
+	    	//code
+		//or
+	    	digit = this.getAttribute('data-numberpagin');
+	    });
+	}
+
+/***********************
+js click by query selector
+***********************/
+
+<div id="by_id_two">
+	<p class="example">A paragraph with class="example".</p> 
+	<p class="example2">A paragraph with class="example".</p> 
+</div>
+
+const buttons = document.querySelectorAll("#by_id_two .example")
+for (const button of buttons) {
+  button.addEventListener('click', function(event) {
+      this.style.backgroundColor = "blue"
+    console.log('click');
+  })
+}
+
+/**
+* второй вариант 
+*/
+
+var div = document.querySelectorAll('.example2'),result;
+for (var i = 0; i < div.length; i++) {
+    result = div[i];
+    result.addEventListener('click', function() {
+        console.log(this.innerHTML);
+    });
+}
+
+/**
+* еще вариант
+*/
+document.querySelectorAll('#by_id_two .example').forEach(item => {
+  item.addEventListener('click', event => {
+    //handle click
+    
+    console.log(item.innerHTML);
+    console.log('hohihih');
+  });
+});
+
+/***********************
+js click id
+***********************/
+document.getElementById("create_new_user").onclick = function(){
+       //you code 
+    }
+  
+  
+/***********************
+js ajax request
+https://www.w3schools.com/js/js_ajax_http_send.asp
+***********************/
+ function requestServer(url){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    if (xhr.status != 200) {
+        console.log(xhr.status + ': ' + xhr.statusText );
+        return false;
+    }
+    return JSON.parse(xhr.responseText);
+}
+
+/**************************
+serializeArray не учитывает поля который не активны (disabled)
+**************************/
+var myform = $('#myform');
+var disabled = myform.find(':input:disabled').removeAttr('disabled');
+var serialized = myform.serialize();
+disabled.attr('disabled','disabled');
+
+
+/*********************************
+переправить все alert в console
+**********************************/
+window.alert = console.log
+alert('ALERT!!!')
+
+
+var apps = [{id:34,name:'My App',another:'thing'},{id:37,name:'My New App',another:'things'}];
+
+// get index of object with id:37
+var removeIndex = apps.map(function(item) { return item.id; }).indexOf(37);
+
+// remove object
+apps.splice(removeIndex, 1);
+
+/*******************/
+auto resize textarea
+/*******************/
+function addAutoResize() {
+  document.querySelectorAll('[data-autoresize]').forEach(function (element) {
+    element.style.boxSizing = 'border-box';
+    var offset = element.offsetHeight - element.clientHeight;
+    element.addEventListener('input', function (event) {
+      event.target.style.height = 'auto';
+      event.target.style.height = event.target.scrollHeight + offset + 'px';
+    });
+    element.removeAttribute('data-autoresize');
+  });
+}
+
+addAutoResize();
+<textarea data-autoresize rows="2"></textarea>
+
+/*************/
+А это вариант, если нужно всем textarea прсотавить авто высоту
+
+document.querySelectorAll('textarea').forEach(function (element) {
+        element.style.boxSizing = 'border-box';
+        var offset = element.offsetHeight - element.clientHeight;
+        element.addEventListener('input', function (event) {
+        event.target.style.height = 'auto';
+        event.target.style.height = event.target.scrollHeight + offset + 'px';
+        });
+    });
+
+/*******************************/
+сортировка массива по значению
+a.index - это по чему сортируем
+/*******************************/
+var elements = elements.slice(0);
+        elements.sort(function(a,b) {
+            return a.index - b.index;
+        });
+
+/**************************************/
+Формат даты
+текущая дата d/m/yyyy -> dd/mm/yyy
+/**************************************/
+var MyDate = new Date();
+var MyDateString;
+
+MyDate.setDate(MyDate.getDate() + 10);
+
+MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/' + ('0' + (MyDate.getMonth()+1)).slice(-2) + '/' + MyDate.getFullYear();
+
+//alert(MyDateString); 
+
+
+/***********************************/
+Удаление дублей по ключ:значение
+/***********************************/
+var uniq = {}
+var arr  = [{"id":"1"},{"id":"1"},{"id":"2"}]
+var arrFiltered = arr.filter(obj => !uniq[obj.id] && (uniq[obj.id] = true));
+console.log('arrFiltered', arrFiltered)
